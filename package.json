@@ -1,0 +1,30 @@
+{
+  "name": "svelte-check-plugin",
+  "version": "1.0.0",
+  "description": "Webpack plugin which runs svelte-check before compilation",
+  "main": "plugin.js",
+  "types": "plugin.d.ts",
+  "scripts": {
+    "format": "npx prettier --write *.js *.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zachmatson/svelte-check-plugin"
+  },
+  "keywords": [
+    "typescript",
+    "svelte",
+    "webpack",
+    "svelte-check"
+  ],
+  "author": "Zachary Matson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zachmatson/svelte-check-plugin/issues",
+  },
+  "homepage": "https://github.com/zachmatson/svelte-check-plugin",
+  "devDependencies": {
+    "@types/webpack": "^5.28.0",
+    "prettier": "^2.5.1"
+  }
+}
