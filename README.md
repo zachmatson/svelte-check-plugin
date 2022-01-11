@@ -1,5 +1,8 @@
 # svelte-check-plugin
 
+[![npm](https://img.shields.io/npm/v/svelte-check-plugin)](https://www.npmjs.com/package/svelte-check-plugin)
+[![npm](https://img.shields.io/npm/dw/svelte-check-plugin)](https://www.npmjs.com/package/svelte-check-plugin)
+
 This plugin runs `svelte-check` as part of the webpack build process, and causes the build to fail with proper error reporting when `svelte-check` fails. This enables proper TypeScript checking of Svelte projects in webpack builds.
 
 ## Installation
