@@ -1,6 +1,6 @@
 # svelte-check-plugin
 
-This plugin runs `svelte-check` as part of the webpack build process, and causes the build to fail with proper error reporting when `svelte-check` fails.
+This plugin runs `svelte-check` as part of the webpack build process, and causes the build to fail with proper error reporting when `svelte-check` fails. This enables proper TypeScript checking of Svelte projects in webpack builds.
 
 ## Installation
 
