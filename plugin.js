@@ -1,44 +1,33 @@
 const { spawn } = require("child_process");
 
 class SvelteCheckPlugin {
-  constructor() {
-    this.error = null;
-    this.output = null;
-  }
+  constructor() {}
 
   apply(compiler) {
     const pluginName = SvelteCheckPlugin.name;
-    compiler.hooks.beforeCompile.tapAsync(pluginName, (_params, callback) => {
-      this.error = false;
-      this.output = "";
 
-      let svelteCheckPromise = new Promise((resolve, reject) => {
-        let proc = spawn("npx", ["svelte-check"], { stdio: "pipe" });
+    compiler.hooks.make.tapAsync(pluginName, (compilation, callback) => {
+      let proc = spawn("svelte-check", { stdio: "pipe" });
 
-        proc.stdout.on("data", (data) => {
-          this.output += data;
-        });
-        proc.stderr.on("data", (data) => {
-          this.output += data;
-        });
+      let output = "";
+      const onData = (data) => {
+        output += data;
+      };
+      proc.stdout.on("data", onData);
+      proc.stderr.on("data", onData);
 
-        proc.on("close", (code) => (code == 0 ? resolve() : reject()));
-        proc.on("error", reject);
-      });
-
-      svelteCheckPromise.then(callback).catch(() => {
-        this.error = true;
-        callback();
-      });
-    });
-
-    compiler.hooks.thisCompilation.tap(pluginName, (compilation, _params) => {
-      if (this.error) {
+      const onError = () => {
         compilation.errors.push("svelte-check failed");
-        compilation.errors.push(this.output);
-      } else {
-        console.log(this.output);
-      }
+        compilation.errors.push(output);
+        callback();
+      };
+      const onSuccess = () => {
+        console.log(output);
+        callback();
+      };
+
+      proc.on("close", (code) => (code == 0 ? onSuccess() : onError()));
+      proc.on("error", onError);
     });
   }
 }

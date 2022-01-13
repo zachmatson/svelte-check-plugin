@@ -20,7 +20,7 @@
   "author": "Zachary Matson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zachmatson/svelte-check-plugin/issues",
+    "url": "https://github.com/zachmatson/svelte-check-plugin/issues"
   },
   "homepage": "https://github.com/zachmatson/svelte-check-plugin",
   "devDependencies": {
