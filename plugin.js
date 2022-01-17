@@ -7,7 +7,9 @@ class SvelteCheckPlugin {
     const pluginName = SvelteCheckPlugin.name;
 
     compiler.hooks.make.tapAsync(pluginName, (compilation, callback) => {
-      let proc = spawn("svelte-check", { stdio: "pipe" });
+      const isWindows = process.platform == "win32";
+      const command = isWindows ? "svelte-check.cmd" : "svelte-check";
+      let proc = spawn(command, { stdio: "pipe", shell: isWindows });
 
       let output = "";
       const onData = (data) => {
@@ -16,17 +18,25 @@ class SvelteCheckPlugin {
       proc.stdout.on("data", onData);
       proc.stderr.on("data", onData);
 
-      const onError = () => {
-        compilation.errors.push("svelte-check failed");
-        compilation.errors.push(output);
+      const onClose = (code) => {
+        if (code == 0) {
+          console.log(output);
+        } else {
+          compilation.errors.push("svelte-check failed");
+          if (output) {
+            compilation.errors.push(output);
+          }
+        }
         callback();
       };
-      const onSuccess = () => {
-        console.log(output);
-        callback();
+      const onError = (error) => {
+        compilation.errors.push(
+          "svelte-check-plugin failed to run svelte-check"
+        );
+        console.log(error);
       };
 
-      proc.on("close", (code) => (code == 0 ? onSuccess() : onError()));
+      proc.on("close", onClose);
       proc.on("error", onError);
     });
   }
