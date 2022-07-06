@@ -1,12 +1,16 @@
-import { Compiler } from "webpack";
-
-export default class SvelteCheckPlugin {
-  constructor();
-  apply(compiler: Compiler): void;
-}
-
 declare module "svelte-check-plugin" {
-  export { SvelteCheckPlugin };
+  import { Compiler } from "@types/webpack";
+
+  interface SvelteCheckPluginOptions {
+    args?: string[];
+  }
+
+  class SvelteCheckPlugin {
+    constructor(args?: SvelteCheckPluginOptions);
+    apply(compiler: Compiler): void;
+  }
+
+  export { SvelteCheckPlugin, SvelteCheckPluginOptions };
   export default SvelteCheckPlugin;
   export = SvelteCheckPlugin;
 }

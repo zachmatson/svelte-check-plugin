@@ -41,4 +41,17 @@ Getting Svelte diagnostics...
 svelte-check found 0 errors, 0 warnings, and 0 hints
 ```
 
-Errors will also show up over the rendered page during development if any occur.
+Errors will show up over the rendered page during development if any occur.
+
+You can also pass custom arguments to `svelte-check` if desired:
+```js
+...
+plugins: {
+    ...,
+    new SvelteCheckPlugin({
+        args: ["--fail-on-hints", "--tsconfig", "path/to/tsconfig"]
+    }),
+    ...
+},
+...
+```

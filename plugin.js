@@ -1,7 +1,9 @@
 const { spawn } = require("child_process");
 
 class SvelteCheckPlugin {
-  constructor() {}
+  constructor({ args = [] } = {}) {
+    this.args = args;
+  }
 
   apply(compiler) {
     const pluginName = SvelteCheckPlugin.name;
@@ -9,7 +11,10 @@ class SvelteCheckPlugin {
     compiler.hooks.make.tapAsync(pluginName, (compilation, callback) => {
       const isWindows = process.platform == "win32";
       const command = isWindows ? "svelte-check.cmd" : "svelte-check";
-      let proc = spawn(command, { stdio: "pipe", shell: isWindows });
+      let proc = spawn(command, this.args, {
+        stdio: "pipe",
+        shell: isWindows,
+      });
 
       let output = "";
       const onData = (data) => {
